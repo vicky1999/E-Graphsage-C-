@@ -1,0 +1,15 @@
+Installing Apache-Arrow
+
+download arrow package from https://arrow.apache.org/install/#:~:text=apache%2Darrow%2D7.0.0.tar.gz
+extract the package
+cd apache-arrow-7.0.0/cpp
+mkdir build && cd build
+cmake .. --preset ninja-release
+cmake --build .
+
+
+For more information on Installing arrow try this link
+https://arrow.apache.org/docs/developers/cpp/building.html#building-arrow-cpp
+
+
+./EGraphSage -i  file:///Users/vignesh/Desktop/Freelancer/e-graphsage-C++/4w38_ip.ftr
