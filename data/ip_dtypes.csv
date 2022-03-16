@@ -1,0 +1,10 @@
+id,int64
+srcip,string
+srcmac,string
+srcport,int64
+dstip,string
+dstmac,string
+dstport,int64
+protocol,int64
+packets,int64
+neighbors,int64

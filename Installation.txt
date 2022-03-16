@@ -14,7 +14,5 @@ brew install libtorch
 For more information on Installing arrow try this link
 https://arrow.apache.org/docs/developers/cpp/building.html#building-arrow-cpp
 
-### This is new
+### Run command
 ./EGraphSage -i 4w38_node.ftr -n 4w38_ip.ftr
-
-./EGraphSage -i  file:///Users/vignesh/Desktop/Freelancer/e-graphsage-C++/4w38_ip.ftr
