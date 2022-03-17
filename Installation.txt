@@ -15,4 +15,4 @@ For more information on Installing arrow try this link
 https://arrow.apache.org/docs/developers/cpp/building.html#building-arrow-cpp
 
 ### Run command
-./EGraphSage -i 4w38_node.ftr -n 4w38_ip.ftr
+./EGraphSage -i 4w38_ip.ftr -n 4w38_node.ftr -v data/node_dtypes.csv -e data/ip_dtypes.csv
