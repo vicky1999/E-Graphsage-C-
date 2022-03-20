@@ -17,10 +17,12 @@ using namespace std;
 std::any getDataWithType(string value, string column, string type)
 {
     any res;
-    if (type == "int64")
-        res = atoi(value.c_str());
-    else if (type == "string")
-        res = value;
+    if (type == "string")
+        res = string(value);
+    else if (type == "int64" && (column == "srcport" || column == "dstport"))
+        res = stoi(value);
+    else
+        res = stod(value);
     return res;
 }
 

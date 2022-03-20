@@ -7,10 +7,14 @@
 #include <string.h>
 #include <any>
 
+#include <torch/torch.h>
+
 // User defined Headers
 #include "include/printer.hpp"
 #include "include/csvparser.hpp"
 #include "include/commons.h"
+#include "include/graph.hpp"
+#include "include/model.hpp"
 
 using namespace std;
 
@@ -53,7 +57,7 @@ void convertToCSV(string ip_filename, string node_filename)
 {
     string basepath = getBasePath();
     string command_string = "python3 " + basepath + "/python/featherparser.py -i " + ip_filename + " -n " + node_filename;
-    const char *command = command_string.c_str();
+    const char* command = command_string.c_str();
     system(command);
 }
 
@@ -71,7 +75,7 @@ void parseCSV(string filename, map<string, string> schema, bool isnode)
     }
 }
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
     print_success("E-GRAPHSAGE");
 
@@ -117,8 +121,8 @@ int main(int argc, char **argv)
     convertToCSV(ip_filename, node_filename);
 
     // get csv filename.
-    char *node_basename = strtok(const_cast<char *>(node_filename.c_str()), ".");
-    char *ip_basename = strtok(const_cast<char *>(ip_filename.c_str()), ".");
+    char* node_basename = strtok(const_cast<char*>(node_filename.c_str()), ".");
+    char* ip_basename = strtok(const_cast<char*>(ip_filename.c_str()), ".");
     string node_csv = "data/" + string(node_basename) + ".csv";
     string ip_csv = "data/" + string(ip_basename) + ".csv";
 
@@ -131,6 +135,13 @@ int main(int argc, char **argv)
 
     cout << "IP data size: " << Commons::ip_data.size() << endl;
     cout << "Node data size: " << Commons::node_data.size() << endl;
+
+    map<string, map<string, vector<torch::Tensor>>> graph = Graph::createGraph(
+        Commons::node_data, Commons::node_schema, Commons::ip_data, Commons::ip_schema);
+
+    set<string> nodes = Graph::getNodes();
+
+    std::shared_ptr<Model::EGraphSage> model = Model::createModel(nodes, Commons::node_data.size(), Commons::node_schema.size());
 
     return 0;
 }

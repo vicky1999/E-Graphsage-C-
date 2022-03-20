@@ -3,6 +3,8 @@
   "files.associations": {
     "*.js": "javascriptreact",
     "string": "cpp",
-    "iosfwd": "cpp"
+    "iosfwd": "cpp",
+    "ostream": "cpp",
+    "type_traits": "cpp"
   }
 }
