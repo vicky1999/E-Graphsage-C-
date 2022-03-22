@@ -129,6 +129,12 @@ int main(int argc, char** argv)
     createSchema(node_schema_name, true);
     createSchema(ip_schema_name, false);
 
+    // Get Columns
+    vector<string> node_columns = CSVParser::getColumns(node_csv, getBasePath());
+    vector<string> ip_columns = CSVParser::getColumns(node_csv, getBasePath());
+    cout << "Node: " << node_columns.size() << ' ' << node_columns[0] << endl;
+    cout << "IP: " << ip_columns.size() << ' ' << ip_columns[0] << endl;
+
     // Parse csv data
     parseCSV(node_csv, Commons::node_schema, true);
     parseCSV(ip_csv, Commons::ip_schema, false);
@@ -136,12 +142,12 @@ int main(int argc, char** argv)
     cout << "IP data size: " << Commons::ip_data.size() << endl;
     cout << "Node data size: " << Commons::node_data.size() << endl;
 
-    map<string, map<string, vector<torch::Tensor>>> graph = Graph::createGraph(
-        Commons::node_data, Commons::node_schema, Commons::ip_data, Commons::ip_schema);
+    Graph::GraphModel graph = Graph::createGraph(
+        Commons::node_data, Commons::node_schema, Commons::ip_data, Commons::ip_schema, node_columns, ip_columns);
 
-    set<string> nodes = Graph::getNodes();
+    // set<string> nodes = Graph::getNodes();
 
-    std::shared_ptr<Model::EGraphSage> model = Model::createModel(nodes, Commons::node_data.size(), Commons::node_schema.size());
+    std::shared_ptr<Model::EGraphSage> model = Model::createModel(graph, Commons::node_data.size(), Commons::node_schema.size());
 
     return 0;
 }

@@ -9,6 +9,8 @@
 #include <torch/csrc/autograd/variable.h>
 #include <torch/csrc/autograd/function.h>
 
+#include "graph.hpp"
+
 using namespace std;
 namespace Model
 {
@@ -29,14 +31,14 @@ namespace Model
         torch::nn::ModuleList layers;
         torch::nn::Dropout dropout;
         SAGE(int ndim_in, int ndim_out, int edim, double dropout);
-        torch::Tensor forward(map<string, map<string, vector<torch::Tensor>>> graph, torch::Tensor nfeats, torch::Tensor efeats);
+        torch::Tensor forward(Graph::GraphModel graph, torch::Tensor nfeats, torch::Tensor efeats);
     };
 
     class MLPredictor : torch::nn::Module {
     public:
         torch::nn::Linear W{ nullptr };
         MLPredictor(int in_features, int out_features);
-        torch::Tensor forward(map<string, map<string, vector<torch::Tensor>>> graph, torch::Tensor h);
+        torch::Tensor forward(Graph::GraphModel graph, torch::Tensor h);
     };
 
     class EGraphSage : torch::nn::Module
@@ -46,10 +48,10 @@ namespace Model
         std::shared_ptr<MLPredictor> pred;
 
         EGraphSage(int ndim_in, int ndim_out, int edim, double dropout);
-        torch::Tensor forward(map<string, map<string, vector<torch::Tensor>>> graph, torch::Tensor nfeats, torch::Tensor efeats);
+        torch::Tensor forward(Graph::GraphModel graph, torch::Tensor nfeats, torch::Tensor efeats);
     };
 
-    std::shared_ptr<EGraphSage> createModel(set<string> nodes, int node_size, int edge_size);
+    std::shared_ptr<EGraphSage> createModel(Graph::GraphModel graph, int node_size, int edge_size);
 }
 
 #endif

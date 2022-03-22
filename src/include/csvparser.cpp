@@ -26,6 +26,26 @@ std::any getDataWithType(string value, string column, string type)
     return res;
 }
 
+vector<string> CSVParser::getColumns(string filename, string basepath) {
+    vector<string> columns;
+
+    string filepath = basepath + "/" + filename;
+    fstream fs;
+    fs.open(filepath, fstream::in);
+    string line, word, temp;
+
+    while (fs >> temp)
+    {
+        stringstream s(temp);
+        while (getline(s, word, ','))
+        {
+            columns.push_back(word);
+        }
+        break;
+    }
+    return columns;
+}
+
 vector<map<string, any>> CSVParser::readFile(string filename, string basepath, map<string, string> schema, bool isnode)
 {
     vector<map<string, any>> res;
@@ -52,6 +72,9 @@ vector<map<string, any>> CSVParser::readFile(string filename, string basepath, m
             }
             else
             {
+                // if (col == 0) {
+                //     cout << "Word: " << word << endl;
+                // }
                 std::any value = getDataWithType(word, columns[col], schema[columns[col]]);
                 row[columns[col]] = value;
             }
@@ -60,6 +83,7 @@ vector<map<string, any>> CSVParser::readFile(string filename, string basepath, m
         if (!isHeader)
         {
             res.push_back(row);
+            // cout << "Row Size: " << row.size() << endl;
         }
         isHeader = false;
     }

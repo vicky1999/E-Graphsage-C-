@@ -5,6 +5,8 @@
     "string": "cpp",
     "iosfwd": "cpp",
     "ostream": "cpp",
-    "type_traits": "cpp"
+    "type_traits": "cpp",
+    "any": "cpp",
+    "map": "cpp"
   }
 }

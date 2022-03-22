@@ -1,5 +1,4 @@
 flow_id,int64
-eth_ethertype_0_0,int64
 eth_ethertype_1_0,int64
 eth_ethertype_2_0,int64
 eth_ethertype_3_0,int64
@@ -752,7 +751,6 @@ icmp_cksum_13_0,int64
 icmp_cksum_14_0,int64
 icmp_cksum_15_0,int64
 src_is_a_0,int64
-eth_ethertype_0_1,int64
 eth_ethertype_1_1,int64
 eth_ethertype_2_1,int64
 eth_ethertype_3_1,int64
@@ -1505,7 +1503,6 @@ icmp_cksum_13_1,int64
 icmp_cksum_14_1,int64
 icmp_cksum_15_1,int64
 src_is_a_1,int64
-eth_ethertype_0_2,int64
 eth_ethertype_1_2,int64
 eth_ethertype_2_2,int64
 eth_ethertype_3_2,int64
@@ -2258,7 +2255,6 @@ icmp_cksum_13_2,int64
 icmp_cksum_14_2,int64
 icmp_cksum_15_2,int64
 src_is_a_2,int64
-eth_ethertype_0_3,int64
 eth_ethertype_1_3,int64
 eth_ethertype_2_3,int64
 eth_ethertype_3_3,int64
@@ -3011,7 +3007,6 @@ icmp_cksum_13_3,int64
 icmp_cksum_14_3,int64
 icmp_cksum_15_3,int64
 src_is_a_3,int64
-eth_ethertype_0_4,int64
 eth_ethertype_1_4,int64
 eth_ethertype_2_4,int64
 eth_ethertype_3_4,int64
