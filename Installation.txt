@@ -7,7 +7,7 @@ create build folder inside the base path
 mkdir build
 cd build
 
-run the following commands
+To Run the project, inside build folder try the following commands
 
 cmake ..
 make
