@@ -2,4 +2,13 @@ Installing LibTorch package
 brew install libtorch
 
 ### Run command
+
+create build folder inside the base path
+mkdir build
+cd build
+
+run the following commands
+
+cmake ..
+make
 ./EGraphSage -i 4w38_ip.ftr -n 4w38_node.ftr -v data/node_dtypes.csv -e data/ip_dtypes.csv -l malicious -s 10
