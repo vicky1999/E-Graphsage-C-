@@ -41,7 +41,7 @@ namespace Model
         torch::Tensor forward(Graph::GraphModel graph, torch::Tensor h);
     };
 
-    class EGraphSage : torch::nn::Module
+    struct EGraphSage : torch::nn::Module
     {
     public:
         std::shared_ptr<SAGE> gnn;
@@ -51,7 +51,7 @@ namespace Model
         torch::Tensor forward(Graph::GraphModel graph, torch::Tensor nfeats, torch::Tensor efeats);
     };
 
-    std::shared_ptr<EGraphSage> createModel(Graph::GraphModel graph, int node_size, int edge_size);
+    std::shared_ptr<EGraphSage> createModel(Graph::GraphModel graph, int node_size, int edge_size, int epochs);
 }
 
 #endif

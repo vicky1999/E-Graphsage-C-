@@ -89,10 +89,12 @@ int main(int argc, char** argv)
 
     string node_filename = "", ip_filename = "";
     string node_schema_name = "", ip_schema_name = "";
+    string label = "";
     char buff[1000];
     char ch;
+    int epochs = 100;
 
-    while ((ch = getopt(argc, argv, "i:n:v:e:")) != -1)
+    while ((ch = getopt(argc, argv, "i:n:v:e:l:s:")) != -1)
     {
         switch (ch)
         {
@@ -108,7 +110,15 @@ int main(int argc, char** argv)
         case 'e':
             ip_schema_name = optarg;
             break;
+        case 'l':
+            label = optarg;
+            break;
+        case 's':
+            epochs = stoi(optarg);
+            break;
+
         }
+
     }
 
     if (node_filename == "" || ip_filename == "" || node_schema_name == "" || ip_schema_name == "")
@@ -131,23 +141,28 @@ int main(int argc, char** argv)
 
     // Get Columns
     vector<string> node_columns = CSVParser::getColumns(node_csv, getBasePath());
-    vector<string> ip_columns = CSVParser::getColumns(node_csv, getBasePath());
-    cout << "Node: " << node_columns.size() << ' ' << node_columns[0] << endl;
-    cout << "IP: " << ip_columns.size() << ' ' << ip_columns[0] << endl;
+    vector<string> ip_columns = CSVParser::getColumns(ip_csv, getBasePath());
 
     // Parse csv data
     parseCSV(node_csv, Commons::node_schema, true);
     parseCSV(ip_csv, Commons::ip_schema, false);
 
+    auto it = std::find(node_columns.begin(), node_columns.end(), label);
+    if (it == node_columns.end()) {
+        print_error("Please enter a valid Label Column");
+        return 0;
+    }
+    int label_index = it - node_columns.begin();
+    cout << "Label Index: " << label_index << endl;
+
     cout << "IP data size: " << Commons::ip_data.size() << endl;
     cout << "Node data size: " << Commons::node_data.size() << endl;
 
     Graph::GraphModel graph = Graph::createGraph(
-        Commons::node_data, Commons::node_schema, Commons::ip_data, Commons::ip_schema, node_columns, ip_columns);
+        Commons::node_data, Commons::node_schema, Commons::ip_data, Commons::ip_schema, node_columns, ip_columns, label_index);
 
     // set<string> nodes = Graph::getNodes();
-
-    std::shared_ptr<Model::EGraphSage> model = Model::createModel(graph, Commons::node_data.size(), Commons::node_schema.size());
+    std::shared_ptr<Model::EGraphSage> model = Model::createModel(graph, Commons::node_data.size(), Commons::node_schema.size(), epochs);
 
     return 0;
 }

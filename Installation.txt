@@ -1,18 +1,5 @@
-Installing Apache-Arrow
-
-download arrow package from https://arrow.apache.org/install/#:~:text=apache%2Darrow%2D7.0.0.tar.gz
-extract the package
-cd apache-arrow-7.0.0/cpp
-mkdir build && cd build
-cmake .. --preset ninja-release
-cmake --build .
-
 Installing LibTorch package
 brew install libtorch
 
-
-For more information on Installing arrow try this link
-https://arrow.apache.org/docs/developers/cpp/building.html#building-arrow-cpp
-
 ### Run command
-./EGraphSage -i 4w38_ip.ftr -n 4w38_node.ftr -v data/node_dtypes.csv -e data/ip_dtypes.csv
+./EGraphSage -i 4w38_ip.ftr -n 4w38_node.ftr -v data/node_dtypes.csv -e data/ip_dtypes.csv -l malicious -s 10

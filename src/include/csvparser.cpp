@@ -57,7 +57,7 @@ vector<map<string, any>> CSVParser::readFile(string filename, string basepath, m
     std::any value;
     vector<string> columns;
     bool isHeader = true;
-    cout << "Schema size: " << schema.size() << endl;
+    // cout << "Schema size: " << schema.size() << endl;
 
     while (fs >> temp)
     {

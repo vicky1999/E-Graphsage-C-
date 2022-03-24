@@ -119,11 +119,13 @@ Graph::GraphModel Graph::createGraph(
     vector<map<string, std::any>> ip_data,
     map<string, string> ip_schema,
     vector<string> node_columns,
-    vector<string> ip_columns
+    vector<string> ip_columns,
+    int label_index
 )
 {
     string source_key = "srcip";
     string destination_key = "dstip";
+    vector<int> labels;
 
     cout << "Create a graph!!" << endl;
     unordered_map<string, map<string, vector<vector<double>>>> graph;
@@ -150,7 +152,7 @@ Graph::GraphModel Graph::createGraph(
     Graph::GraphModel res;
     res.graph = graph;
     int n = 2 * Graph::nodes.size(), m = node_schema.size();
-    cout << "sizes: " << n << " - " << m << endl;
+    // cout << "sizes: " << n << " - " << m << endl;
 
     auto tensor = torch::zeros({ num_el, m }, options);
 
@@ -165,11 +167,18 @@ Graph::GraphModel Graph::createGraph(
             for (int i = 0;i < size; i++) {
                 int sz = dst.second[i].size();
                 tensor.slice(0, ind, ind + 1) = torch::from_blob(dst.second[i].data(), { sz }, options);
+                labels.push_back(dst.second[i][label_index]);
                 ind++;
             }
         }
     }
+    auto intOptions = torch::TensorOptions().dtype(torch::kInt); // .device(torch::kCUDA, 1);
+    int label_size = labels.size();
+    torch::Tensor labelTensor = torch::from_blob(labels.data(), { label_size }, intOptions);
+    labelTensor = labelTensor.to(torch::kLong);
     torch::Tensor edata_size = torch::_shape_as_tensor(tensor);
     res.edata["h"] = tensor.view({ edata_size[0].item<int>(), 1, edata_size[1].item<int>() });
+    // cout << "Edata: " << labelTensor << endl;
+    res.edata["Label"] = labelTensor;
     return res;
 }

@@ -29,7 +29,8 @@ namespace Graph
         vector<map<string, std::any>> ip_data,
         map<string, string> ip_schema,
         vector<string> node_columns,
-        vector<string> ip_columns
+        vector<string> ip_columns,
+        int label_index
     );
 
     torch::Tensor getMeanForEdges(GTYPE graph);
