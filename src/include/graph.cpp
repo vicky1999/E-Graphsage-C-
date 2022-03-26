@@ -48,7 +48,7 @@ set<string> Graph::getNodes()
 }
 
 vector<int> Graph::getGraphNM(GTYPE graph) {
-    int n, m;
+    int n = 0, m = 0;
 
     for (auto src : graph) {
         map<string, vector<vector<double>>> val = src.second;
