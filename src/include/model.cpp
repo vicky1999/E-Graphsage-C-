@@ -104,6 +104,13 @@ torch::Tensor Model::MLPredictor::forward(Graph::GraphModel graph, torch::Tensor
     return graph.edata["score"];
 }
 
+float computeAccuracy(torch::Tensor pred, torch::Tensor labels) {
+    auto vals = pred.argmax(1);
+    auto x = (vals == labels).to(torch::kFloat);
+    float mean = x.mean().item<float>();
+    return mean;
+}
+
 std::shared_ptr<Model::EGraphSage> Model::createModel(Graph::GraphModel graph, int node_size, int edge_size, int epochs) {
     vector<int> sizes = Graph::getGraphNM(graph.graph);
     int n = sizes[0], m = sizes[1];
@@ -128,7 +135,7 @@ std::shared_ptr<Model::EGraphSage> Model::createModel(Graph::GraphModel graph, i
             auto loss = criterion(pred, edge_label);
             loss.backward();
             opt.step();
-            cout << "Epoch: " << epoch << "/" << epochs << endl;
+            cout << "Epoch: " << epoch << "/" << epochs << " =====> ACC: " << computeAccuracy(pred, edge_label) << endl;
         }
         catch (const exception& ex) {
             cout << "Error occurred!!!" << endl;
