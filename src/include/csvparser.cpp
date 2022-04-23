@@ -10,6 +10,7 @@
 // User defined Header files
 #include "csvparser.hpp"
 // #include "schema.hpp"
+#include "scaler.hpp"
 #include "commons.h"
 
 using namespace std;
@@ -86,6 +87,9 @@ vector<map<string, any>> CSVParser::readFile(string filename, string basepath, m
             // cout << "Row Size: " << row.size() << endl;
         }
         isHeader = false;
+    }
+    if (isnode) {
+        res = StandardScaler::fit(res, schema, CSVParser::getColumns(filename, basepath));
     }
 
     return res;
